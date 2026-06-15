@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -21,7 +24,12 @@ public class CategoryController {
         return categories;
     }
     
-
+    @PostMapping("/api/admin/categories")
+    public String postMethodName(@RequestBody Category entity) {
+        categories.add(entity);
+        return "Category Added Successfully";
+    }
+    
     
 
 }
