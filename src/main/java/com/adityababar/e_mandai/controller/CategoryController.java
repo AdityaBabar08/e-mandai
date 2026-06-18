@@ -14,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.adityababar.e_mandai.model.Category;
 import com.adityababar.e_mandai.service.CategoryScervice;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 public class CategoryController {
@@ -41,6 +43,17 @@ public class CategoryController {
 
             String status = categoryScervice.deleteCategory(categoryId);
             return ResponseEntity.status(HttpStatus.OK).body(status);
+
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getReason(), e.getStatusCode());
+        }
+    }
+    
+    @PutMapping("/api/admin/categories/{categoryId}")
+    public ResponseEntity<String> putMethodName(@PathVariable Long categoryId, @RequestBody Category category) {
+        try {
+            Category savedCategory = categoryScervice.updateCategory(categoryId, category);
+            return new ResponseEntity<>("Category with ID " + categoryId + "Updated", HttpStatus.OK);
 
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(e.getReason(), e.getStatusCode());

@@ -4,8 +4,12 @@ import com.adityababar.e_mandai.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CategoryServiceImpl implements CategoryScervice {
@@ -35,6 +39,23 @@ public class CategoryServiceImpl implements CategoryScervice {
         categories.remove(category);
 
         return "Category " + categoryId + " deleted successfully";
+    }
+
+    @Override
+    public Category updateCategory(Long categoryId, Category category) {
+        Optional<Category> optionalCategory = categories.stream()
+                .filter(c -> c.getCategoryId() == categoryId)
+                .findFirst();
+
+        if (optionalCategory.isPresent()) {
+            Category existingCategory = optionalCategory.get();
+            existingCategory.setCategoryName(category.getCategoryName());
+            return existingCategory;
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found");
+        }
+
     }
 
 }
