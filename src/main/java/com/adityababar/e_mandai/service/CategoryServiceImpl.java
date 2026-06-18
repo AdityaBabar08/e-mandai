@@ -1,4 +1,5 @@
 package com.adityababar.e_mandai.service;
+
 import com.adityababar.e_mandai.model.Category;
 
 import java.util.ArrayList;
@@ -6,12 +7,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class CategoryServiceImpl implements CategoryScervice {
 
-      private List<Category> categories = new ArrayList<>();
-
+    private List<Category> categories = new ArrayList<>();
 
     @Override
     public List<Category> getAllCategories() {
@@ -22,5 +21,20 @@ public class CategoryServiceImpl implements CategoryScervice {
     public void createCategory(Category category) {
         categories.add(category);
     }
-    
+
+    @Override
+    public String deleteCategory(Long categoryId) {
+        Category category = categories.stream()
+                            .filter(c -> c.getCategoryId() == categoryId)
+                            .findFirst().orElse(null);
+
+        if (category == null) {
+            return "Category Not Found";
+        }
+        
+        categories.remove(category);
+
+        return "Category " + categoryId + " deleted successfully";
+    }
+
 }
