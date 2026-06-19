@@ -1,0 +1,12 @@
+
+
+GET http://localhost:8080/api/public/categories
+
+###
+
+POST http://localhost:8080/api/admin/categories
+Content-Type: application/json
+
+{
+    "categoryName" : "Clothes"
+}
